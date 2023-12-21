@@ -17,8 +17,15 @@ export class AppComponent {
   headerConfig: WrapperConfig = {
     remoteName: 'header',
     exposedModule: './mfe-header',
-    elementName: 'mfe-header'
-  }
+    elementName: 'mfe-header',
+    attributes: [
+      {
+        name: 'path',
+        value: 'http://localhost:4202'
+      }
+    ]
+  };
+
   constructor(
     private ngZone: NgZone,
     private readonly router: Router
@@ -27,6 +34,8 @@ export class AppComponent {
   }
 
   navigate(route: string): void {
-    location.replace(route);
+    window.history.replaceState(null, '', route);
+    const popStateEvent = new PopStateEvent('popstate', {state: null});
+    dispatchEvent(popStateEvent);
   }
 }

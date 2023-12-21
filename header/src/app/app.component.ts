@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,6 +8,12 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
-  title = 'header';
+export class AppComponent implements OnInit {
+  @Input() path!: string;
+
+  imagePath!: string;
+
+  ngOnInit(): void {
+    this.imagePath = `${this.path}/assets/logo.png`;
+  }
 }

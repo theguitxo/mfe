@@ -1,9 +1,9 @@
 <div>
   <app-wrapper [config]="headerConfig"></app-wrapper>
 </div>
-<a (click)="navigate('/mfe1/prueba')">PRUEBA</a>
-&nbsp;-&nbsp;
-<a (click)="navigate('/mfe1/contador')">CONTADOR</a>
-&nbsp;-&nbsp;
-<a (click)="navigate('mfe1')">RESET</a>
+<ul class="shell__link-list">
+  <li (click)="navigate('/mfe1/prueba')">PRUEBA</li>
+  <li (click)="navigate('/mfe1/contador')">CONTADOR</li>
+  <li (click)="navigate('mfe1')">RESET</li>
+</ul>
 <router-outlet></router-outlet>

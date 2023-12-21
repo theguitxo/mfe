@@ -2,10 +2,15 @@ import { loadRemoteModule } from '@angular-architects/native-federation';
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Input, OnInit, inject } from '@angular/core';
 
+export interface WrapperAttribute {
+  name: string;
+  value: string;
+}
 export interface WrapperConfig {
   remoteName: string;
   exposedModule: string;
   elementName: string;
+  attributes?: WrapperAttribute[];
 }
 
 export const initWrapperConfig: WrapperConfig = {
@@ -30,6 +35,9 @@ export class WrapperComponent implements OnInit {
 
     await loadRemoteModule(remoteName, exposedModule);
     const root = document.createElement(elementName);
+    this.config?.attributes?.forEach((attr: WrapperAttribute) => {
+      root.setAttribute(attr.name, attr.value);
+    });
     this.elm.nativeElement.appendChild(root);
   }
 }
