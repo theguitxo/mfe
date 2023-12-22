@@ -1,13 +1,13 @@
 import { Component, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
 import { shareNgZone } from '@angular-architects/module-federation-tools';
 import { WrapperComponent, WrapperConfig } from './wrapper.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule, WrapperComponent],
+  imports: [CommonModule, RouterOutlet, WrapperComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
@@ -27,8 +27,7 @@ export class AppComponent {
   };
 
   constructor(
-    private ngZone: NgZone,
-    private readonly router: Router
+    private ngZone: NgZone
   ) {
     shareNgZone(ngZone);
   }
