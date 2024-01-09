@@ -1,9 +1,20 @@
-<div>
-  <app-wrapper [config]="headerConfig"></app-wrapper>
-</div>
 <ul class="shell__link-list">
   <li (click)="navigate('/mfe1/prueba')">PRUEBA</li>
   <li (click)="navigate('/mfe1/contador')">CONTADOR</li>
   <li (click)="navigate('mfe1')">RESET</li>
 </ul>
 <router-outlet></router-outlet>
+<div><button (click)="sendMessage()">SEND MESSAGE</button></div>
+<hr>
+<div>
+  <app-wrapper
+    [config]="headerConfig"
+    [message]="message()">
+  </app-wrapper>
+</div>
+<div>
+  <app-wrapper
+    [config]="footerConfig"
+    [message]="message()">
+  </app-wrapper>
+</div>

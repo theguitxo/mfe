@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { WrapperComponent, WrapperConfig } from './wrapper.component';
+import { WrapperComponent, WrapperConfig } from './wrapper-component/wrapper.component';
 import { startsWith } from './starts-with';
 
 export const routes: Routes = [

@@ -1,0 +1,13 @@
+.wrapper__loader {
+  margin-bottom: 1rem;
+  width: 60px;
+  height: 10px;
+  -webkit-mask:linear-gradient(90deg,#000 70%,#0000 0) 0/20%;
+  background:
+    linear-gradient(#1b6bad 0 0) 0/0% no-repeat
+    #b3cfec;
+  animation: loader 2s infinite steps(6);
+}
+@keyframes loader {
+    100% {background-size:120%}
+}
