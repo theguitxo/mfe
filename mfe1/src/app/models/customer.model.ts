@@ -10,5 +10,8 @@ export interface Customer {
 }
 
 export interface CustomerState {
+  loading: boolean;
+  loaded: boolean;
+  errorLoading: boolean;
   customers: Customer[];
 }
