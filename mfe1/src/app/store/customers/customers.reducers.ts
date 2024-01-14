@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { CustomerState } from "../../models/customer.model";
-import { loadCustomers, loadCustomersKO, loadCustomersOK } from "./customers.actions";
+import { loadCustomers, loadCustomersKO, loadCustomersOK, reloadData } from "./customers.actions";
 
 export const initialState: CustomerState = {
   customers: [],
@@ -28,5 +28,12 @@ export const customerReducer = createReducer(
     ...state,
     loading: false,
     errorLoading: true
+  })),
+  on(reloadData, (state) => ({
+    ...state,
+    loading: false,
+    loaded: false,
+    errorLoading: false,
+    customers: []
   }))
 );

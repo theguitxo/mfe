@@ -13,3 +13,7 @@ export const loadCustomersOK = createAction(
 export const loadCustomersKO = createAction(
   '[Customers] Load KO'
 );
+
+export const reloadData = createAction(
+  '[Customers] Reload data'
+);
