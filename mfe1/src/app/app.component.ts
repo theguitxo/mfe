@@ -8,7 +8,6 @@ import { connectRouter } from './connect-router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
