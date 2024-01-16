@@ -7,7 +7,7 @@ export interface Product {
 export interface ProductState {
   loading: boolean;
   loaded: boolean;
-  errorLoadign: boolean;
+  errorLoading: boolean;
   products: Product[];
 }
 
