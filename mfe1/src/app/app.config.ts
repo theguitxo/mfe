@@ -13,10 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),
-      autoPause: true,
-      trace: true,
-      traceLimit: 75,
-      connectInZone: true
+      autoPause: true
     }),
     {
       provide: PATH,

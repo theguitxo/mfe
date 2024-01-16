@@ -5,6 +5,7 @@ import { Customer, CustomerState } from "../models/customer.model";
 import { loadCustomers, reloadData } from "../store/customers/customers.actions";
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { selectCanLoadCustomer, selectCustomers, selectIsLoading, selectShowError, selectShowLoadedData } from "../store/customers/customers.selectors";
+import { filter, tap } from "rxjs/operators";
 
 @Component({
   selector: 'app-customers',
@@ -36,14 +37,12 @@ export class CustomersComponent implements OnInit {
   }
 
   initSubscriptions(): void {
-
     this.store.select(selectCanLoadCustomer)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value: boolean) => {
-        if (value) {
-          this.store.dispatch(loadCustomers());
-        }
-      });
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter(value => value),
+        tap(() => this.store.dispatch(loadCustomers()))
+      ).subscribe();
 
     this.loading = toSignal(this.store.select(selectIsLoading), { requireSync: true, injector: this.injector });
     this.showLoadedData = toSignal(this.store.select(selectShowLoadedData), { requireSync: true, injector: this.injector });
