@@ -5,8 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.html'
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
