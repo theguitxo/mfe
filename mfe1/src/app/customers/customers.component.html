@@ -41,14 +41,14 @@
     </tr>
   </table>
   <div class="paginator__wrapper">
-    <ng-container *ngIf="page() > 0">
+    <ng-container *ngIf="showPreviousArrows()">
       <div
         class="paginator__arrow"
-        (click)="changeInitEnd()">&lt;&lt;
+        (click)="changePage(0)">&lt;&lt;
       </div>
       <div
         class="paginator__arrow"
-        (click)="movePage(-1)">&lt;
+        (click)="changePage(page() - 1)">&lt;
       </div>
     </ng-container>
     <div
@@ -58,14 +58,14 @@
       (click)="changePage(pageItem)">
       {{ pageItem + 1}}
     </div>
-    <ng-container *ngIf="page() < finalPage()">
+    <ng-container *ngIf="showNextArrows()">
       <div
         class="paginator__arrow"
-        (click)="movePage(1)">&gt;
+        (click)="changePage(page() + 1)">&gt;
       </div>
       <div
         class="paginator__arrow"
-        (click)="changeInitEnd(false)">&gt;&gt;
+        (click)="changePage(totalPages() - 1)">&gt;&gt;
       </div>
     </ng-container>
   </div>

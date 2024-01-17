@@ -30,7 +30,9 @@ export class CustomersComponent implements OnInit {
   totalPages!: Signal<number>;
   customerList!: Signal<Customer[]>;
   pages!: Signal<number[]>;
-  finalPage!: Signal<number>;
+
+  showPreviousArrows!: Signal<boolean>;
+  showNextArrows!: Signal<boolean>;
 
   ngOnInit(): void {
     this.initSubscriptions();
@@ -45,13 +47,16 @@ export class CustomersComponent implements OnInit {
       ).subscribe();
 
     this.loading = toSignal(this.store.select(selectIsLoading), { requireSync: true, injector: this.injector });
+    this.errorLoading = toSignal(this.store.select(selectShowError), { requireSync: true, injector: this.injector });
     this.showLoadedData = toSignal(this.store.select(selectShowLoadedData), { requireSync: true, injector: this.injector });
     this.customers = toSignal(this.store.select(selectCustomers), { requireSync: true, injector: this.injector });
+
     this.totalPages = computed(() => Math.ceil(this.customers()?.length / this.itemsPage));
     this.pages = computed(() => new Array(this.totalPages())?.fill(0)?.map((_value, index) => index));
     this.customerList = computed(() => this.customers()?.slice((this.page() * this.itemsPage), (this.page() * this.itemsPage) + this.itemsPage));
-    this.finalPage = computed(() => this.totalPages() - 1);
-    this.errorLoading = toSignal(this.store.select(selectShowError), { requireSync: true, injector: this.injector });
+
+    this.showPreviousArrows = computed(() => this.page() > 0);
+    this.showNextArrows = computed(() => this.page() < this.totalPages() - 1);
   }
 
   seleccionar(customer: Customer): void {
@@ -60,14 +65,6 @@ export class CustomersComponent implements OnInit {
 
   changePage(page: number): void {
     this.page.set(page);
-  }
-
-  changeInitEnd(init = true): void {
-    this.page.set(init ? 0 : this.finalPage());
-  }
-
-  movePage(dir: number): void {
-    this.page.update(page => page + dir);
   }
 
   reloadData(): void {
