@@ -2,8 +2,16 @@
   &__table {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 0.75rem;
+    border: 0;
+    border-spacing: 0;
     th, td {
       padding: .5rem;
+    }
+    thead tr {
+      background-color: rgb(139, 218, 225);
+    }
+    tbody tr:nth-child(even) {
+      background-color: rgb(203, 203, 203);
     }
   }
 
@@ -15,6 +23,11 @@
     padding: .5rem 1rem;
     cursor: pointer;
     display: inline-block;
+
+    &:hover {
+      color: black;
+      background: rgb(138, 197, 138);
+    }
   }
 }
 

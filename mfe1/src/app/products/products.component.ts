@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, DestroyRef, Injector, OnInit, inject } from '@angular/core';
-import { ProductState } from '../models/products.model';
+import { ChangeDetectionStrategy, Component, DestroyRef, Injector, OnInit, Signal, inject } from '@angular/core';
+import { Product, ProductState } from '../models/products.model';
 import { Store } from '@ngrx/store';
-import { selectCanLoadProducts } from '../store/products/products.selectors';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { selectCanLoadProducts, selectProducts } from '../store/products/products.selectors';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { filter, tap } from 'rxjs/operators';
 import { loadProducts } from '../store/products/products.actions';
 
@@ -20,6 +20,10 @@ export class ProductsComponent implements OnInit {
   private store = inject(Store<ProductState>);
   private destroyRef = inject(DestroyRef);
 
+  products!: Signal<Product[]>;
+
+  images!: Map<string, string>;
+
   ngOnInit(): void {
     this.initSubscriptions();
   }
@@ -31,5 +35,7 @@ export class ProductsComponent implements OnInit {
         filter(value => value),
         tap(() => this.store.dispatch(loadProducts()))
       ).subscribe();
+
+    this.products = toSignal(this.store.select(selectProducts), { requireSync: true, injector: this.injector });
   }
 }

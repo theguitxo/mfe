@@ -1,10 +1,10 @@
 import { createReducer, on } from "@ngrx/store";
 import { ProductState } from "../../models/products.model";
-import { loadProducts, loadProductsKO, loadProductsOK } from "./products.actions";
+import { loadProducts, loadProductsKO, loadProductsOK, reloadData } from "./products.actions";
 
 export const initialState: ProductState = {
   products: [],
-  loading: true,
+  loading: false,
   loaded: false,
   errorLoading: false
 };
@@ -30,5 +30,12 @@ export const productsReducer = createReducer(
     loaded: false,
     errorLoading: false,
     products: []
+  })),
+  on(reloadData, (state) => ({
+    ...state,
+    products: [],
+    loading: false,
+    loaded: false,
+    errorLoading: false
   }))
 );

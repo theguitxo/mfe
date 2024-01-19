@@ -17,8 +17,8 @@ export const loadCustomersEffect = createEffect(
       }).then(data => data.json())).pipe(
         map((customers: Customer[]) => loadCustomersOK({customers})),
         catchError(() => of(loadCustomersKO()))
-      )
-    ))
+      ))
+    )
   },
   { functional: true }
 );

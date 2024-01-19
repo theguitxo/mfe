@@ -1,0 +1,12 @@
+<div class="products__wrapper">
+  <div
+    *ngFor="let product of products()"
+    class="products__grid">
+    <div
+      class="products__photo"
+      [style.background-image]="'url('+product.path+')'">
+    </div>
+    <div class="products__code">{{ product.code }}</div>
+    <div class="products__description">{{ product.description }}</div>
+  </div>
+</div>

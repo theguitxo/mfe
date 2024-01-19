@@ -7,6 +7,7 @@ import { provideEffects } from '@ngrx/effects';
 import * as customerEffects from './store/customers/customers.effects';
 import { ProductsComponent } from './products/products.component';
 import { productsReducer } from './store/products/products.reducers';
+import * as productEffects from './store/products/products.effects';
 
 export const routes: Routes = [
   {
@@ -21,7 +22,8 @@ export const routes: Routes = [
     path: 'mfe1/products',
     component: ProductsComponent,
     providers: [
-      provideState({ name: 'products', reducer: productsReducer })
+      provideState({ name: 'products', reducer: productsReducer }),
+      provideEffects(productEffects)
     ]
   },
   {
