@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, DestroyRef, Injector, OnInit, Signal, inject } from '@angular/core';
+import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, OnInit, QueryList, Signal, ViewChild, ViewChildren, inject } from '@angular/core';
 import { Product, ProductState } from '../models/products.model';
 import { Store } from '@ngrx/store';
 import { selectCanLoadProducts, selectProducts } from '../store/products/products.selectors';
@@ -16,13 +16,15 @@ import { loadProducts } from '../store/products/products.actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsComponent implements OnInit {
+  @ViewChild('wrapper') wrapperRef!: ElementRef;
+  @ViewChild('carrousel') carrouselRef!: ElementRef;
+  @ViewChildren('productitem') productItemsRef!: QueryList<ElementRef>;
+
   private injector = inject(Injector);
   private store = inject(Store<ProductState>);
   private destroyRef = inject(DestroyRef);
 
   products!: Signal<Product[]>;
-
-  images!: Map<string, string>;
 
   ngOnInit(): void {
     this.initSubscriptions();

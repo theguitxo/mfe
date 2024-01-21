@@ -1,5 +1,5 @@
 export interface Product {
-  path: string;
+  image: string;
   code: string;
   description: string;
 }

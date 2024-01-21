@@ -7,7 +7,10 @@ export const loadProducts = createAction(
 
 export const loadProductsOK = createAction(
   '[Products] Load OK',
-  props<{ products: Product[] }>()
+  props<{
+    products: Product[],
+    path: string
+  }>()
 );
 
 export const loadProductsKO = createAction(

@@ -1,11 +1,20 @@
-<div class="products__wrapper">
-  <div
-    *ngFor="let product of products()"
-    class="products__grid">
-    <div class="products__photo">
-      <img [src]="product.path" [attr.alt]="product.code">
+<div #wrapper class="products__wrapper">
+  <div #carrousel class="products__carrousel">
+    <div
+      #productitem
+      *ngFor="let product of products()"
+      class="products__grid">
+      <div class="products__photo">
+        <img [src]="product.image" [attr.alt]="product.code">
+      </div>
+      <div class="products__code">{{ product.code }}</div>
+      <div class="products__description">{{ product.description }}</div>
     </div>
-    <div class="products__code">{{ product.code }}</div>
-    <div class="products__description">{{ product.description }}</div>
+  </div>
+  <div class="products__navigation">
+    <div class="products__arrow"></div>
+  </div>
+  <div class="products__navigation products__navigation--right">
+    <div class="products__arrow"></div>
   </div>
 </div>

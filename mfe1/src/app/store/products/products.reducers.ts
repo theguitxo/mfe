@@ -18,9 +18,12 @@ export const productsReducer = createReducer(
     loaded: false,
     errorLoading: false
   })),
-  on(loadProductsOK, (state, { products }) => ({
+  on(loadProductsOK, (state, { products, path }) => ({
     ...state,
-    products,
+    products: products.map((item) => ({
+      ...item,
+      image: `${path}${item.image}`
+    })),
     loading: false,
     loaded: true
   })),
