@@ -11,10 +11,10 @@
       <div class="products__description">{{ product.description }}</div>
     </div>
   </div>
-  <div class="products__navigation">
+  <div class="products__navigation" (click)="moveProductItem(1)">
     <div class="products__arrow"></div>
   </div>
-  <div class="products__navigation products__navigation--right">
+  <div class="products__navigation products__navigation--right" (click)="moveProductItem(1)">
     <div class="products__arrow"></div>
   </div>
 </div>

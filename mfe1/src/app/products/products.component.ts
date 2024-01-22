@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, OnInit, QueryList, Signal, ViewChild, ViewChildren, inject } from '@angular/core';
+import { AfterRenderPhase, AfterRenderRef, AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, OnDestroy, OnInit, QueryList, Signal, ViewChild, ViewChildren, afterRender, inject } from '@angular/core';
 import { Product, ProductState } from '../models/products.model';
 import { Store } from '@ngrx/store';
 import { selectCanLoadProducts, selectProducts } from '../store/products/products.selectors';
@@ -15,7 +15,7 @@ import { loadProducts } from '../store/products/products.actions';
   styleUrl: './products.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('wrapper') wrapperRef!: ElementRef;
   @ViewChild('carrousel') carrouselRef!: ElementRef;
   @ViewChildren('productitem') productItemsRef!: QueryList<ElementRef>;
@@ -24,10 +24,26 @@ export class ProductsComponent implements OnInit {
   private store = inject(Store<ProductState>);
   private destroyRef = inject(DestroyRef);
 
+  private afterRenderRef!: AfterRenderRef;
+
   products!: Signal<Product[]>;
+
+  wrapperSize!: number;
+  carrouselSize!: number;
 
   ngOnInit(): void {
     this.initSubscriptions();
+  }
+
+  ngOnDestroy(): void {
+    this.afterRenderRef.destroy();
+  }
+
+  ngAfterViewInit(): void {
+    this.afterRenderRef = afterRender(() => this.setElementsSizes(), {
+      phase: AfterRenderPhase.Read,
+      injector: this.injector
+    });
   }
 
   initSubscriptions(): void {
@@ -39,5 +55,15 @@ export class ProductsComponent implements OnInit {
       ).subscribe();
 
     this.products = toSignal(this.store.select(selectProducts), { requireSync: true, injector: this.injector });
+  }
+
+  private setElementsSizes(): void {
+    this.wrapperSize = this.wrapperRef?.nativeElement?.getBoundingClientRect()?.width;
+    this.carrouselSize = Math.floor(this.carrouselRef?.nativeElement?.getBoundingClientRect()?.width ?? 0);
+  }
+
+  moveProductItem(mov: number): void {
+    console.log(this.wrapperSize);
+    console.log(this.carrouselSize);
   }
 }
