@@ -7,7 +7,7 @@
 
   &__carrousel {
     display: inline-flex;
-    gap: .5rem;
+    transition: all ease-in-out 1s;
   }
 
   &__grid {

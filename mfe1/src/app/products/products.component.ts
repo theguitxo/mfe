@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterRenderPhase, AfterRenderRef, AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, OnDestroy, OnInit, QueryList, Signal, ViewChild, ViewChildren, afterRender, inject } from '@angular/core';
+import { AfterRenderPhase, AfterRenderRef, AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, OnDestroy, OnInit, QueryList, Renderer2, Signal, ViewChild, ViewChildren, afterRender, inject } from '@angular/core';
 import { Product, ProductState } from '../models/products.model';
 import { Store } from '@ngrx/store';
 import { selectCanLoadProducts, selectProducts } from '../store/products/products.selectors';
@@ -23,6 +23,7 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
   private injector = inject(Injector);
   private store = inject(Store<ProductState>);
   private destroyRef = inject(DestroyRef);
+  private renderer = inject(Renderer2);
 
   private afterRenderRef!: AfterRenderRef;
 
@@ -30,6 +31,9 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   wrapperSize!: number;
   carrouselSize!: number;
+  productItemSize!: number;
+
+  movementIndex = 0;
 
   ngOnInit(): void {
     this.initSubscriptions();
@@ -58,12 +62,23 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private setElementsSizes(): void {
-    this.wrapperSize = this.wrapperRef?.nativeElement?.getBoundingClientRect()?.width;
+    this.wrapperSize = this.wrapperRef?.nativeElement?.getBoundingClientRect()?.width ?? 0;
     this.carrouselSize = Math.floor(this.carrouselRef?.nativeElement?.getBoundingClientRect()?.width ?? 0);
+
+    if(!!this.productItemsRef.first?.nativeElement) {
+      this.productItemSize =
+        parseFloat(getComputedStyle(this.productItemsRef?.first?.nativeElement).width) +
+        parseFloat(getComputedStyle(this.productItemsRef?.first?.nativeElement).paddingLeft) +
+        parseFloat(getComputedStyle(this.productItemsRef?.first?.nativeElement).paddingRight);
+    }
   }
 
-  moveProductItem(mov: number): void {
+  moveProductItem(movement: number): void {
     console.log(this.wrapperSize);
     console.log(this.carrouselSize);
+    console.log(this.productItemSize);
+    this.movementIndex -= movement;
+
+    this.renderer.setStyle(this.carrouselRef.nativeElement, 'transform', `translateX(${this.productItemSize * this.movementIndex}px)`);
   }
 }
