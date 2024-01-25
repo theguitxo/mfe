@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { AfterRenderPhase, AfterRenderRef, AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, OnDestroy, OnInit, QueryList, Renderer2, Signal, ViewChild, ViewChildren, afterRender, inject } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { AfterRenderPhase, AfterRenderRef, AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, OnDestroy, OnInit, QueryList, Renderer2, Signal, ViewChild, ViewChildren, afterRender, computed, inject, signal } from '@angular/core';
 import { Product, ProductState } from '../models/products.model';
 import { Store } from '@ngrx/store';
 import { selectCanLoadProducts, selectProducts } from '../store/products/products.selectors';
@@ -24,6 +24,7 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
   private store = inject(Store<ProductState>);
   private destroyRef = inject(DestroyRef);
   private renderer = inject(Renderer2);
+  private document = inject(DOCUMENT);
 
   private afterRenderRef!: AfterRenderRef;
 
@@ -33,14 +34,24 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
   carrouselSize!: number;
   productItemSize!: number;
 
-  movementIndex = 0;
+  movementIndex = signal<number>(0);
+  showRightArrow!: Signal<boolean>;
+  showLeftArrow!: Signal<boolean>;
+
+  resizeObserver!: ResizeObserver;
+  resizeTimer!: any;
 
   ngOnInit(): void {
     this.initSubscriptions();
+    this.initResizeObserver();
   }
 
   ngOnDestroy(): void {
-    this.afterRenderRef.destroy();
+    if(this.afterRenderRef) {
+      this.afterRenderRef.destroy();
+    }
+    this.resizeObserver.unobserve(this.document.body);
+    clearTimeout(this.resizeTimer);
   }
 
   ngAfterViewInit(): void {
@@ -50,7 +61,12 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  initSubscriptions(): void {
+  moveProductItem(movement: number): void {
+    this.movementIndex.update((current) => current - movement);
+    this.renderer.setStyle(this.carrouselRef.nativeElement, 'transform', `translateX(${this.productItemSize * this.movementIndex()}px)`);
+  }
+
+  private initSubscriptions(): void {
     this.store.select(selectCanLoadProducts)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
@@ -59,26 +75,34 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
       ).subscribe();
 
     this.products = toSignal(this.store.select(selectProducts), { requireSync: true, injector: this.injector });
+
+    this.showRightArrow = computed(() => this.movementIndex() < 0);
+    this.showLeftArrow = computed(() => this.movementIndex() > (this.products().length - 2) * -1);
+  }
+
+  private initResizeObserver(): void {
+    this.resizeObserver = new ResizeObserver(() => {
+      clearTimeout(this.resizeTimer);
+      this.resizeTimer = setTimeout(() => {
+        this.setElementsSizes();
+      }, 100);
+    });
+
+    this.resizeObserver.observe(this.document.body);
   }
 
   private setElementsSizes(): void {
-    this.wrapperSize = this.wrapperRef?.nativeElement?.getBoundingClientRect()?.width ?? 0;
-    this.carrouselSize = Math.floor(this.carrouselRef?.nativeElement?.getBoundingClientRect()?.width ?? 0);
-
-    if(!!this.productItemsRef.first?.nativeElement) {
+    if(this.productItemsRef.first?.nativeElement) {
+      this.wrapperSize = this.wrapperRef?.nativeElement?.getBoundingClientRect()?.width ?? 0;
+      this.carrouselSize = Math.floor(this.carrouselRef?.nativeElement?.getBoundingClientRect()?.width ?? 0);
       this.productItemSize =
         parseFloat(getComputedStyle(this.productItemsRef?.first?.nativeElement).width) +
         parseFloat(getComputedStyle(this.productItemsRef?.first?.nativeElement).paddingLeft) +
         parseFloat(getComputedStyle(this.productItemsRef?.first?.nativeElement).paddingRight);
     }
-  }
 
-  moveProductItem(movement: number): void {
-    console.log(this.wrapperSize);
-    console.log(this.carrouselSize);
-    console.log(this.productItemSize);
-    this.movementIndex -= movement;
-
-    this.renderer.setStyle(this.carrouselRef.nativeElement, 'transform', `translateX(${this.productItemSize * this.movementIndex}px)`);
+    if (!!this.wrapperSize && !!this.carrouselSize && !!this.productItemSize && !!this.afterRenderRef) {
+      this.afterRenderRef.destroy();
+    }
   }
 }
