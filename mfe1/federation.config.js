@@ -1,6 +1,6 @@
-const { withNativeFederation, shareAll } = require('@angular-architects/native-federation/config');
+const { withNativeFederation, shareAll, share } = require('@angular-architects/native-federation/config');
 
-module.exports = withNativeFederation({
+const conf = withNativeFederation({
 
   name: 'mfe1',
 
@@ -8,16 +8,18 @@ module.exports = withNativeFederation({
     './web-components': './src/bootstrap.ts',
   },
 
-  shared: {
-    ...shareAll({ singleton: true, strictVersion: true, requiredVersion: 'auto' }),
-  },
+  shared:{},
 
   skip: [
     'rxjs/ajax',
     'rxjs/fetch',
     'rxjs/testing',
-    'rxjs/webSocket',
+    'rxjs/webSocket'
     // Add further packages you don't need at runtime
   ]
   
 });
+
+console.log(conf);
+
+module.exports = conf;

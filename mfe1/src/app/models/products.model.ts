@@ -2,6 +2,7 @@ export interface Product {
   image: string;
   code: string;
   description: string;
+  price: number;
 }
 
 export interface ProductState {

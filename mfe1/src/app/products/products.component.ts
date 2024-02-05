@@ -1,5 +1,5 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { AfterRenderPhase, AfterRenderRef, AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, OnDestroy, OnInit, QueryList, Renderer2, Signal, ViewChild, ViewChildren, afterRender, computed, inject, signal } from '@angular/core';
+import { AfterRenderPhase, AfterRenderRef, AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, LOCALE_ID, OnDestroy, OnInit, QueryList, Renderer2, Signal, ViewChild, ViewChildren, afterRender, computed, inject, signal } from '@angular/core';
 import { Product, ProductState } from '../models/products.model';
 import { Store } from '@ngrx/store';
 import { selectCanLoadProducts, selectProducts } from '../store/products/products.selectors';
@@ -25,6 +25,7 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroyRef = inject(DestroyRef);
   private renderer = inject(Renderer2);
   private document = inject(DOCUMENT);
+  private element = inject(ElementRef);
 
   private afterRenderRef!: AfterRenderRef;
 
@@ -64,6 +65,16 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
   moveProductItem(movement: number): void {
     this.movementIndex.update((current) => current - movement);
     this.renderer.setStyle(this.carrouselRef.nativeElement, 'transform', `translateX(${this.productItemSize * this.movementIndex()}px)`);
+  }
+
+  selectProduct(product: Product): void {
+    this.element.nativeElement.
+    dispatchEvent(new CustomEvent('productSelect', {
+      bubbles: true,
+      detail: {
+        product
+      }
+    }))
   }
 
   private initSubscriptions(): void {

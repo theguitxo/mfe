@@ -20,6 +20,7 @@
       "photo select";
     padding: .5rem 1vw;
     width: 31vw;
+    color: #435585;
   }
 
   &__photo {
@@ -31,7 +32,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 1rem;
-    border: solid 2px rgb(96, 144, 234);
+    border: solid 2px #435585;
 
     & img {
       height: 100%;
@@ -53,9 +54,10 @@
     text-align: justify;
   }
 
-  &__select {
+  &__options {
     grid-area: select;
-    justify-self: flex-end;
+    display: inline-flex;
+    justify-content: space-between;
   }
 
   &__code,
@@ -65,10 +67,22 @@
 
   &__code,
   &__description,
-  &__select {
+  &__options {
     font-family: Arial, Helvetica, sans-serif;
     font-size: .875rem;
     padding-left: .5rem;
+  }
+
+  &__price,
+  &__select {
+    background-color: #818FB4;
+    color: #F5E8C7;
+    padding: .25rem .75rem;
+    border-radius: 1rem;
+  }
+
+  &__select {
+    cursor: pointer;
   }
 
   &__navigation {
@@ -78,7 +92,7 @@
     justify-content: center;
     width: 2.25rem;
     aspect-ratio: 1 / 1;
-    background-color: rgb(128, 128, 128);
+    background-color: #363062;
     border-radius: 50%;
     cursor: pointer;
     top: calc(50% - 1.125rem);
@@ -94,7 +108,7 @@
     height: 0;
     border-top: .5rem solid transparent;
     border-bottom: .5rem solid transparent;
-    border-right: 1rem solid whitesmoke;
+    border-right: 1rem solid #F5E8C7;
     transform: translateX(-.1rem);
   }
 }

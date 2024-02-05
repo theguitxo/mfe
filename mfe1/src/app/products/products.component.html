@@ -5,11 +5,18 @@
       *ngFor="let product of products()"
       class="products__grid">
       <div class="products__photo">
-        <img [src]="product.image" [attr.alt]="product.code">
+        <img [src]="product.image" alt="{{ product.code }}">
       </div>
       <div class="products__code">{{ product.code }}</div>
       <div class="products__description">{{ product.description }}</div>
-      <div class="products__select">select</div>
+      <div class="products__options">
+        <div class="products__price">{{ product.price | currency:'EUR' }}</div>
+        <div
+          class="products__select"
+          (click)="selectProduct(product)">
+          SELECCIONAR
+        </div>
+      </div>
     </div>
   </div>
   <div
