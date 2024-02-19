@@ -2,7 +2,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { PATH } from "../../app.config";
 import { inject } from '@angular/core';
 import { loadProducts, loadProductsKO, loadProductsOK } from './products.actions';
-import { catchError, exhaustMap, from, map, of } from 'rxjs';
+import { catchError, delay, exhaustMap, from, map, of } from 'rxjs';
 import { Product } from '../../models/products.model';
 
 export const loadProductsEffect = createEffect(
@@ -15,6 +15,7 @@ export const loadProductsEffect = createEffect(
           "Content-Type": "application/json"
         }
       }).then(data => data.json())).pipe(
+        delay(2000),
         map((products: Product[]) => loadProductsOK({products, path})),
         catchError(() => of(loadProductsKO()))
       ))

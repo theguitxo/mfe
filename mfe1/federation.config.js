@@ -20,6 +20,4 @@ const conf = withNativeFederation({
   
 });
 
-console.log(conf);
-
 module.exports = conf;

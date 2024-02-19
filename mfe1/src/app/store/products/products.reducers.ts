@@ -31,7 +31,7 @@ export const productsReducer = createReducer(
     ...state,
     loading: false,
     loaded: false,
-    errorLoading: false,
+    errorLoading: true,
     products: []
   })),
   on(reloadData, (state) => ({

@@ -1,28 +1,27 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, DestroyRef, Injector, OnInit, Signal, computed, inject, signal } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { Customer, CustomerState } from "../models/customer.model";
-import { loadCustomers, reloadData } from "../store/customers/customers.actions";
+import { Customer, CustomerState } from "../../models/customer.model";
+import { loadCustomers, reloadData } from "../../store/customers/customers.actions";
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { selectCanLoadCustomer, selectCustomers, selectIsLoading, selectShowError, selectShowLoadedData } from "../store/customers/customers.selectors";
+import { selectCanLoadCustomer, selectCustomers, selectIsLoading, selectShowError, selectShowLoadedData } from "../../store/customers/customers.selectors";
 import { filter, tap } from "rxjs/operators";
+import { LoadingSelectors } from "../../models/loading.model";
+import { WrapperComponent } from "../../components/wrapper/wrapper.component";
 
 @Component({
   selector: 'app-customers',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, WrapperComponent],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomersComponent implements OnInit {
-  private injector = inject(Injector);
   private store = inject(Store<CustomerState>);
+  private injector = inject(Injector);
   private destroyRef = inject(DestroyRef);
   
-  loading!: Signal<boolean>;
-  showLoadedData!: Signal<boolean>;
-  errorLoading!: Signal<boolean>;
   customers!: Signal<Customer[]>;
 
   page = signal<number>(0);
@@ -34,6 +33,8 @@ export class CustomersComponent implements OnInit {
   showPreviousArrows!: Signal<boolean>;
   showNextArrows!: Signal<boolean>;
 
+  loadingSelectors!: LoadingSelectors;
+  
   ngOnInit(): void {
     this.initSubscriptions();
   }
@@ -46,9 +47,12 @@ export class CustomersComponent implements OnInit {
         tap(() => this.store.dispatch(loadCustomers()))
       ).subscribe();
 
-    this.loading = toSignal(this.store.select(selectIsLoading), { requireSync: true, injector: this.injector });
-    this.errorLoading = toSignal(this.store.select(selectShowError), { requireSync: true, injector: this.injector });
-    this.showLoadedData = toSignal(this.store.select(selectShowLoadedData), { requireSync: true, injector: this.injector });
+    this.loadingSelectors = {
+      loading: this.store.select(selectIsLoading),
+      error: this.store.select(selectShowError),
+      loaded: this.store.select(selectShowLoadedData)
+    };
+
     this.customers = toSignal(this.store.select(selectCustomers), { requireSync: true, injector: this.injector });
 
     this.totalPages = computed(() => Math.ceil(this.customers()?.length / this.itemsPage));
@@ -60,7 +64,6 @@ export class CustomersComponent implements OnInit {
   }
 
   seleccionar(customer: Customer): void {
-    console.log(customer);
   }
 
   changePage(page: number): void {

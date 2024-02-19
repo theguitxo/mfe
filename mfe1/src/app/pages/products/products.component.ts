@@ -1,16 +1,18 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { AfterRenderPhase, AfterRenderRef, AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, LOCALE_ID, OnDestroy, OnInit, QueryList, Renderer2, Signal, ViewChild, ViewChildren, afterRender, computed, inject, signal } from '@angular/core';
-import { Product, ProductState } from '../models/products.model';
+import { AfterRenderPhase, AfterRenderRef, AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, OnDestroy, OnInit, QueryList, Renderer2, Signal, ViewChild, ViewChildren, afterRender, computed, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectCanLoadProducts, selectProducts } from '../store/products/products.selectors';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { filter, tap } from 'rxjs/operators';
-import { loadProducts } from '../store/products/products.actions';
+import { Product, ProductState } from '../../models/products.model';
+import { selectCanLoadProducts, selectIsLoading, selectProducts, selectShowError, selectShowLoadedData } from '../../store/products/products.selectors';
+import { loadProducts } from '../../store/products/products.actions';
+import { LoadingSelectors } from '../../models/loading.model';
+import { WrapperComponent } from '../../components/wrapper/wrapper.component';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, WrapperComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -20,8 +22,8 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('carrousel') carrouselRef!: ElementRef;
   @ViewChildren('productitem') productItemsRef!: QueryList<ElementRef>;
 
-  private injector = inject(Injector);
   private store = inject(Store<ProductState>);
+  private injector = inject(Injector);
   private destroyRef = inject(DestroyRef);
   private renderer = inject(Renderer2);
   private document = inject(DOCUMENT);
@@ -29,6 +31,7 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private afterRenderRef!: AfterRenderRef;
 
+  errorLoading!: Signal<boolean>;
   products!: Signal<Product[]>;
 
   wrapperSize!: number;
@@ -41,6 +44,8 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   resizeObserver!: ResizeObserver;
   resizeTimer!: any;
+
+  loadingSelectors!: LoadingSelectors;
 
   ngOnInit(): void {
     this.initSubscriptions();
@@ -77,7 +82,7 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
     }))
   }
 
-  private initSubscriptions(): void {
+  initSubscriptions(): void {
     this.store.select(selectCanLoadProducts)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
@@ -85,8 +90,13 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
         tap(() => this.store.dispatch(loadProducts()))
       ).subscribe();
 
-    this.products = toSignal(this.store.select(selectProducts), { requireSync: true, injector: this.injector });
+    this.loadingSelectors = {
+      loading: this.store.select(selectIsLoading),
+      error: this.store.select(selectShowError),
+      loaded: this.store.select(selectShowLoadedData)
+    };
 
+    this.products = toSignal(this.store.select(selectProducts), { requireSync: true, injector: this.injector });
     this.showRightArrow = computed(() => this.movementIndex() < 0);
     this.showLeftArrow = computed(() => this.movementIndex() > (this.products().length - 2) * -1);
   }

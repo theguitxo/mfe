@@ -1,4 +1,4 @@
-<div *ngIf="loading()">Cargando...</div>
+<!-- <div *ngIf="loading()">Cargando...</div>
 <ng-container *ngIf="errorLoading()">
   <div>
     Error cargando los datos
@@ -9,7 +9,8 @@
     Recargar datos
   </div>
 </ng-container>
-<div *ngIf="showLoadedData()">
+<div *ngIf="showLoadedData()"> -->
+<app-wrapper [selectors]="loadingSelectors">  
   <table class="customer-list__table" aria-describedby="customer list">
     <thead>
       <tr>
@@ -73,4 +74,5 @@
       </div>
     </ng-container>
   </div>
-</div>
+</app-wrapper>
+<!-- </div> -->

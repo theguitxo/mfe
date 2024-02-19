@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { CustomersComponent } from './customers/customers.component';
 import { provideState } from '@ngrx/store';
 import { customerReducer } from './store/customers/customers.reducers';
 import { provideEffects } from '@ngrx/effects';
 import * as customerEffects from './store/customers/customers.effects';
-import { ProductsComponent } from './products/products.component';
 import { productsReducer } from './store/products/products.reducers';
 import * as productEffects from './store/products/products.effects';
+import { CustomersComponent } from './pages/customers/customers.component';
+import { ProductsComponent } from './pages/products/products.component';
+import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
   {
