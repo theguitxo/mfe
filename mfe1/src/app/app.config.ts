@@ -1,11 +1,11 @@
-import { ApplicationConfig, InjectionToken, LOCALE_ID, isDevMode } from '@angular/core';
+import { ApplicationConfig, InjectionToken, LOCALE_ID, importProvidersFrom, isDevMode } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 registerLocaleData(localeEs, 'es-ES');
 
@@ -27,6 +27,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: LOCALE_ID,
       useValue: 'es-ES'
-    }
+    },
+    importProvidersFrom([BrowserAnimationsModule])
   ]
 };

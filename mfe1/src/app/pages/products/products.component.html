@@ -1,24 +1,6 @@
-<!-- <div *ngIf="loading()" class="products__loader">
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>  
-</div> -->
-<!-- <ng-container *ngIf="errorLoading()">
-  <div>
-    Error cargando los datos
-  </div>
-  <div
-    class="customer-list__button"
-    (click)="reloadData()">
-    Recargar datos
-  </div>
-</ng-container> -->
-<app-wrapper [selectors]="loadingSelectors">
+<app-wrapper
+  [selectors]="loadingSelectors"
+  (reloadData)="reloadData()">
   <div #wrapper class="products__wrapper">
     <div #carrousel class="products__carrousel">
       <div

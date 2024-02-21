@@ -5,7 +5,7 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { filter, tap } from 'rxjs/operators';
 import { Product, ProductState } from '../../models/products.model';
 import { selectCanLoadProducts, selectIsLoading, selectProducts, selectShowError, selectShowLoadedData } from '../../store/products/products.selectors';
-import { loadProducts } from '../../store/products/products.actions';
+import { loadProducts, reloadData } from '../../store/products/products.actions';
 import { LoadingSelectors } from '../../models/loading.model';
 import { WrapperComponent } from '../../components/wrapper/wrapper.component';
 
@@ -125,5 +125,9 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!!this.wrapperSize && !!this.carrouselSize && !!this.productItemSize && !!this.afterRenderRef) {
       this.afterRenderRef.destroy();
     }
+  }
+
+  reloadData(): void {
+    this.store.dispatch(reloadData());
   }
 }

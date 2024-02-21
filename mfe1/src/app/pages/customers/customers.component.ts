@@ -8,6 +8,7 @@ import { selectCanLoadCustomer, selectCustomers, selectIsLoading, selectShowErro
 import { filter, tap } from "rxjs/operators";
 import { LoadingSelectors } from "../../models/loading.model";
 import { WrapperComponent } from "../../components/wrapper/wrapper.component";
+import { style, animate, trigger, transition } from "@angular/animations";
 
 @Component({
   selector: 'app-customers',
@@ -15,7 +16,15 @@ import { WrapperComponent } from "../../components/wrapper/wrapper.component";
   imports: [CommonModule, WrapperComponent],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('fade', [ 
+      transition('void => *', [
+        style({ opacity: 0 }), 
+        animate('1s', style({opacity: 1}))
+      ]) 
+    ])
+  ]
 })
 export class CustomersComponent implements OnInit {
   private store = inject(Store<CustomerState>);
