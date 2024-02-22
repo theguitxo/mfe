@@ -14,7 +14,7 @@ import { WrapperComponent } from '../../components/wrapper/wrapper.component';
   standalone: true,
   imports: [CommonModule, WrapperComponent],
   templateUrl: './products.component.html',
-  styleUrl: './products.component.scss',
+  styleUrls: ['../../app.scss', './products.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -73,13 +73,11 @@ export class ProductsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   selectProduct(product: Product): void {
-    this.element.nativeElement.
-    dispatchEvent(new CustomEvent('productSelect', {
-      bubbles: true,
-      detail: {
-        product
-      }
-    }))
+    this.element.nativeElement
+      .dispatchEvent(new CustomEvent('productSelect', {
+        bubbles: true,
+        detail: { product }
+    }));
   }
 
   initSubscriptions(): void {

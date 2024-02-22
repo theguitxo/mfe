@@ -1,9 +1,10 @@
-<ul class="shell__link-list">
-  <li (click)="navigate('/mfe1/customers')">CLIENTES</li>
-  <li (click)="navigate('/mfe1/products')">PRODUCTOS</li>
-</ul>
+<div *ngIf="showHeaderLinks()">
+  <ul class="shell__link-list">
+    <li (click)="navigate('/mfe1/customers')">CLIENTES</li>
+    <li (click)="navigate('/mfe1/products')">PRODUCTOS</li>
+  </ul>
+</div>
 <router-outlet></router-outlet>
-<div><button (click)="sendMessage()">SEND MESSAGE</button></div>
 <hr>
 <div>
   <app-wrapper

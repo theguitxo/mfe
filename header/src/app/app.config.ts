@@ -1,5 +1,12 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, InjectionToken, isDevMode } from '@angular/core';
+
+export const PATH = new InjectionToken<string>('PATH');
 
 export const appConfig: ApplicationConfig = {
-  providers: []
+  providers: [
+    {
+      provide: PATH,
+      useFactory: () => isDevMode() ? 'http://localhost:4202/' : ''
+    }
+  ]
 };

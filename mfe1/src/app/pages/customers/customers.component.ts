@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, DestroyRef, Injector, OnInit, Signal, computed, inject, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, OnInit, Signal, computed, inject, signal } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Customer, CustomerState } from "../../models/customer.model";
 import { loadCustomers, reloadData } from "../../store/customers/customers.actions";
@@ -15,7 +15,7 @@ import { style, animate, trigger, transition } from "@angular/animations";
   standalone: true,
   imports: [CommonModule, WrapperComponent],
   templateUrl: './customers.component.html',
-  styleUrl: './customers.component.scss',
+  styleUrls: ['../../app.scss', './customers.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('fade', [ 
@@ -30,6 +30,7 @@ export class CustomersComponent implements OnInit {
   private store = inject(Store<CustomerState>);
   private injector = inject(Injector);
   private destroyRef = inject(DestroyRef);
+  private element = inject(ElementRef);
   
   customers!: Signal<Customer[]>;
 
@@ -73,6 +74,11 @@ export class CustomersComponent implements OnInit {
   }
 
   seleccionar(customer: Customer): void {
+    this.element.nativeElement
+      .dispatchEvent(new CustomEvent('customerSelect', {
+        bubbles: true,
+        detail: { customer }
+      }));
   }
 
   changePage(page: number): void {

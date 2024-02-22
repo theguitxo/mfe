@@ -1,12 +1,16 @@
 import { Injectable } from "@angular/core";
+import { Observable, Subject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessagesService {
-  public id!: string;
 
-  constructor() {
-    this.id = `${Date.now().toString(36)}${Math.random().toString(36).substring(2)}`;
+  private _wrapperLoaded: Subject<string> = new Subject();
+
+  wrapperLoaded = this._wrapperLoaded.asObservable();
+
+  wrapperIsLoaded(id: string): void {
+    this._wrapperLoaded.next(id);
   }
 }

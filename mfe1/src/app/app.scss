@@ -1,0 +1,16 @@
+.app {
+  &__button {
+    border: solid 1px green;
+    border-radius: 4px;
+    background-color: rgb(49, 170, 49);
+    color: white;
+    padding: .5rem 1rem;
+    cursor: pointer;
+    display: inline-block;
+
+    &:hover {
+      color: black;
+      background: rgb(138, 197, 138);
+    }
+  }
+}

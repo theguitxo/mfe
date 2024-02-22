@@ -1,6 +1,6 @@
 import { loadRemoteModule } from '@angular-architects/native-federation';
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject, signal } from '@angular/core';
 import { MessagesService } from '../services/messages.services';
 import { MessageData } from '../app.component';
 
@@ -26,15 +26,18 @@ export const initWrapperConfig: WrapperConfig = {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './wrapper.component.html',
-  styleUrl: './wrapper.component.scss'
+  styleUrl: './wrapper.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WrapperComponent implements OnInit, OnChanges {
   messages = inject(MessagesService);
-  loading = true;
   elm = inject(ElementRef);
+  loading = signal(true);
 
   @Input() config = initWrapperConfig;
   @Input() message!: MessageData;
+
+  @Output() loaded: EventEmitter<void> = new EventEmitter();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!!changes['message'] && !changes['message'].firstChange) {
@@ -50,8 +53,10 @@ export class WrapperComponent implements OnInit, OnChanges {
     this.config?.attributes?.forEach((attr: WrapperAttribute) => {
       root.setAttribute(attr.name, attr.value);
     });
-    this.loading = false;
+    this.loading.set(false);
     this.elm.nativeElement.appendChild(root);
+    this.loaded.emit();
+    this.messages.wrapperIsLoaded(this.config.remoteName);
   }
 
   private checkMessage(): void {
