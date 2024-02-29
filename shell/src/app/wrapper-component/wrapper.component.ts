@@ -40,7 +40,9 @@ export class WrapperComponent implements OnInit, OnChanges {
   @Output() loaded: EventEmitter<void> = new EventEmitter();
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!!changes['message'] && !changes['message'].firstChange) {
+    
+    if (!(changes['message']?.firstChange)) {
+      console.log(changes);
       this.checkMessage();
     }
   }
@@ -60,7 +62,8 @@ export class WrapperComponent implements OnInit, OnChanges {
   }
 
   private checkMessage(): void {
-    if (this.message.selector === this.config.elementName) {
+    console.log(this.message);
+    if (this.message?.selector === this.config.elementName) {
       console.log('process message');
     }
   }

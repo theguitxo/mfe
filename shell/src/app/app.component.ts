@@ -6,6 +6,7 @@ import { RouterOutlet } from '@angular/router';
 import { MessagesService } from './services/messages.services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
+import { Customer } from './models/customer.model';
 
 export interface MessageData {
   selector: string;
@@ -25,6 +26,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   showHeaderLinks = signal(false);
 
+  valueHeader = 'hola';
+
   frontsLoaded: Map<string, boolean> =
     new Map<string, boolean>()
       .set('mfe1', false)
@@ -37,8 +40,8 @@ export class AppComponent implements OnInit, OnDestroy {
     elementName: 'mfe-header',
     attributes: [
       {
-        name: 'message-event',
-        value: 'messageEmited'
+        name: 'id',
+        value: 'header'
       }
     ]
   };
@@ -49,10 +52,6 @@ export class AppComponent implements OnInit, OnDestroy {
     elementName: 'mfe-footer'
   };
   
-  message = signal<MessageData>({
-    selector: ''
-  });
-
   constructor(
     private ngZone: NgZone
   ) {
@@ -60,9 +59,13 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.element.nativeElement.addEventListener('messageEmited', (data: Event) => console.log(data));
-    this.element.nativeElement.addEventListener('productSelect', (data: Event) => console.log(data));
-    this.element.nativeElement.addEventListener('customerSelect', (data: Event) => console.log(data));
+    this.element.nativeElement.addEventListener('productSelect', (data: CustomEvent) => {
+      console.log(data.detail);
+    });
+    this.element.nativeElement.addEventListener('customerSelect', (data: CustomEvent) => {
+      this.setCustomer(data.detail.customer);
+    });
+    
 
     this.messages
       .wrapperLoaded
@@ -75,7 +78,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.element.nativeElement.removeEventListener('messageEmited');
     this.element.nativeElement.removeEventListener('productSelect');
     this.element.nativeElement.removeEventListener('customerSelect');
   }
@@ -84,5 +86,9 @@ export class AppComponent implements OnInit, OnDestroy {
     window.history.replaceState(null, '', route);
     const popStateEvent = new PopStateEvent('popstate', {state: null});
     dispatchEvent(popStateEvent);
+  }
+
+  setCustomer(customer: Customer): void {
+    this.element.nativeElement.querySelector('#header').setAttribute('datos', JSON.stringify(customer));
   }
 }

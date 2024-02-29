@@ -1,6 +1,7 @@
-import { Component, ElementRef, Inject, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
+import { Component, ElementRef, Inject, Input, OnChanges, OnInit, SimpleChanges, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PATH } from './app.config';
+import { Customer } from './models/customer.model';
 
 @Component({
   selector: 'app-root',
@@ -14,29 +15,23 @@ export class AppComponent implements OnInit, OnChanges {
 
   @Input() messageEvent!: string;
 
+  @Input() datos!: string;
+
   imagePath!: string;
+
+  datosCliente = signal<Customer | undefined>(undefined);
 
   constructor(
     @Inject(PATH) private path: string
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-      console.log(changes);
+    if (changes['datos']) {
+      this.datosCliente.set(JSON.parse(this.datos));
+    }
   }
 
   ngOnInit(): void {
-    console.log(this.path);
     this.imagePath = `${this.path}assets/logo.png`;
-  }
-
-  sendMessage(): void {
-    this.element.nativeElement.
-    dispatchEvent(new CustomEvent(this.messageEvent, {
-      bubbles: true,
-      detail: {
-        element: this.element.nativeElement.tagName,
-        value: 'message from header'
-      }
-    }));
   }
 }
