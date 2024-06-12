@@ -1,0 +1,18 @@
+<div *ngIf="showHeaderLinks()">
+  <ul class="shell__link-list">
+    <li (click)="navigate('/mfe1/customers')">CLIENTES</li>
+    <li (click)="navigate('/mfe1/products')">PRODUCTOS</li>
+  </ul>
+</div>
+<router-outlet></router-outlet>
+<hr>
+<div>
+  <app-wrapper
+    [config]="headerConfig">
+  </app-wrapper>
+</div>
+<div>
+  <app-wrapper
+    [config]="footerConfig">
+  </app-wrapper>
+</div>

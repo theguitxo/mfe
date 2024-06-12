@@ -1,0 +1,18 @@
+
+<div class="wrapper">
+  <div class="header">
+    <img [src]="imagePath" alt="imagen" />
+  </div>
+  <div class="data__container">
+    <div>Nombre: {{ datosCliente()?.name }}</div>
+    <div>NIF: {{ datosCliente()?.nif }}</div>
+    <div>Teléfono: {{ datosCliente()?.phone }}</div>
+    <div>E-mail: {{ datosCliente()?.email }}</div>
+  </div>
+  <div class="data__container">
+    <div>Dirección: {{ datosCliente()?.address }}</div>
+    <div>Código Postal: {{ datosCliente()?.zip }}</div>
+    <div>Población: {{ datosCliente()?.city }}</div>
+    <div>Provincia: {{ datosCliente()?.state }}</div>
+  </div>
+</div>

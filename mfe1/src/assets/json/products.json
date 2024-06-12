@@ -1,0 +1,74 @@
+[
+  {
+    "image": "assets/images/products/photo001.jpg",
+    "code": "ABC001",
+    "description": "ut diam quam nulla porttitor massa id neque aliquam vestibulum morbi blandit cursus risus at ultrices mi tempus imperdiet nulla malesuada pellentesque elit eget gravida cum sociis natoque penatibus et",
+    "price": 100
+  },
+  {
+    "image": "assets/images/products/photo002.jpg",
+    "code": "BCD002",
+    "description": "senectus et netus et malesuada fames ac turpis egestas maecenas pharetra convallis posuere morbi leo urna molestie at elementum eu facilisis sed odio morbi quis commodo odio aenean sed adipiscing",
+    "price": 34.5
+  },
+  {
+    "image": "assets/images/products/photo003.jpg",
+    "code": "CDE003",
+    "description": "in hac habitasse platea dictumst quisque sagittis purus sit amet volutpat consequat mauris nunc congue nisi vitae suscipit tellus mauris a diam maecenas sed enim ut sem viverra aliquet eget",
+    "price": 7.6
+  },
+  {
+    "image": "assets/images/products/photo004.jpg",
+    "code": "EFG004",
+    "description": "malesuada nunc vel risus commodo viverra maecenas accumsan lacus vel facilisis volutpat est velit egestas dui id ornare arcu odio ut sem nulla pharetra diam sit amet nisl suscipit adipiscing",
+    "price": 215
+  },
+  {
+    "image": "assets/images/products/photo005.jpg",
+    "code": "FGH005",
+    "description": "semper eget duis at tellus at urna condimentum mattis pellentesque id nibh tortor id aliquet lectus proin nibh nisl condimentum id venenatis a condimentum vitae sapien pellentesque habitant morbi tristique",
+    "price": 88.32
+  },
+  {
+    "image": "assets/images/products/photo006.jpg",
+    "code": "GHI006",
+    "description": "neque ornare aenean euismod elementum nisi quis eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus urna neque viverra justo nec ultrices dui sapien eget mi proin sed libero",
+    "price": 55.1
+  },
+  {
+    "image": "assets/images/products/photo007.jpg",
+    "code": "HIJ007",
+    "description": "rhoncus dolor purus non enim praesent elementum facilisis leo vel fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra",
+    "price": 15.6
+  },
+  {
+    "image": "assets/images/products/photo008.jpg",
+    "code": "IJK008",
+    "description": "sit amet dictum sit amet justo donec enim diam vulputate ut pharetra sit amet aliquam id diam maecenas ultricies mi eget mauris pharetra et ultrices neque ornare aenean euismod elementum",
+    "price": 25
+  },
+  {
+    "image": "assets/images/products/photo009.jpg",
+    "code": "JKL009",
+    "description": "bibendum neque egestas congue quisque egestas diam in arcu cursus euismod quis viverra nibh cras pulvinar mattis nunc sed blandit libero volutpat sed cras ornare arcu dui vivamus arcu felis",
+    "price": 115.4
+  },
+  {
+    "image": "assets/images/products/photo010.jpg",
+    "code": "KLM010",
+    "description": "fringilla ut morbi tincidunt augue interdum velit euismod in pellentesque massa placerat duis ultricies lacus sed turpis tincidunt id aliquet risus feugiat in ante metus dictum at tempor commodo ullamcorper",
+    "price": 333
+  },
+  {
+    "image": "assets/images/products/photo011.jpg",
+    "code": "MNO011",
+    "description": "tellus pellentesque eu tincidunt tortor aliquam nulla facilisi cras fermentum odio eu feugiat pretium nibh ipsum consequat nisl vel pretium lectus quam id leo in vitae turpis massa sed elementum",
+    "price": 135
+  },
+  {
+    "image": "assets/images/products/photo012.jpg",
+    "code": "NOP012",
+    "description": "elit sed vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et ligula ullamcorper malesuada proin libero nunc consequat interdum varius sit amet mattis vulputate enim",
+    "price": 1.5
+  }
+]

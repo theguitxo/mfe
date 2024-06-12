@@ -1,0 +1,21 @@
+<div *ngIf="loading()" class="loading__wrapper">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>  
+</div>
+<ng-container *ngIf="error()">
+  <div>
+    Error cargando los datos
+  </div>
+  <div
+    class="app__button"
+    (click)="reload()">
+    Recargar datos
+  </div>
+</ng-container>
+<ng-content *ngIf="loaded()"></ng-content>

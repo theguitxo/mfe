@@ -1,0 +1,38 @@
+<app-wrapper
+  [selectors]="loadingSelectors"
+  (reloadData)="reloadData()">
+  <div #wrapper class="products__wrapper">
+    <div #carrousel class="products__carrousel">
+      <div
+        #productitem
+        *ngFor="let product of products()"
+        class="products__grid">
+        <div class="products__photo">
+          <img [src]="product.image" alt="{{ product.code }}" loading="lazy">
+        </div>
+        <div class="products__code">{{ product.code }}</div>
+        <div class="products__description">{{ product.description }}</div>
+        <div class="products__options">
+          <div class="products__price">{{ product.price | currency:'EUR' }}</div>
+          <div
+            class="products__select"
+            (click)="selectProduct(product)">
+            SELECCIONAR
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="showLeftArrow()"
+      class="products__navigation"
+      (click)="moveProductItem(1)">
+      <div class="products__arrow"></div>
+    </div>
+    <div
+      *ngIf="showRightArrow()"
+      class="products__navigation products__navigation--right"
+      (click)="moveProductItem(-1)">
+      <div class="products__arrow"></div>
+    </div>
+  </div>
+</app-wrapper>

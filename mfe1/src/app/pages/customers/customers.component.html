@@ -1,0 +1,65 @@
+<app-wrapper [selectors]="loadingSelectors">  
+  <table class="customer-list__table" aria-describedby="customer list">
+    <thead>
+      <tr>
+        <th>DNI</th>
+        <th>NOMBRE</th>
+        <th>DIRECCIÓN</th>
+        <th>C.P.</th>
+        <th>POBLACIÓN</th>
+        <th>PROVINCIA</th>
+        <th>TELEFONO</th>
+        <th>EMAIL</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr @fade *ngFor="let customer of customerList()">
+        <td>{{ customer.nif }}</td>
+        <td>{{ customer.name }}</td>
+        <td>{{ customer.address }}</td>
+        <td>{{ customer.zip }}</td>
+        <td>{{ customer.city }}</td>
+        <td>{{ customer.state }}</td>
+        <td>{{ customer.phone }}</td>
+        <td>{{ customer.email }}</td>
+        <td>
+          <div
+            class="app__button"
+            (click)="seleccionar(customer)">
+            Seleccionar
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="paginator__wrapper">
+    <ng-container *ngIf="showPreviousArrows()">
+      <div
+        class="paginator__arrow"
+        (click)="changePage(0)">&lt;&lt;
+      </div>
+      <div
+        class="paginator__arrow"
+        (click)="changePage(page() - 1)">&lt;
+      </div>
+    </ng-container>
+    <div
+      *ngFor="let pageItem of pages()"
+      class="paginator__item"
+      [class.paginator__item--current]="pageItem === page()"
+      (click)="changePage(pageItem)">
+      {{ pageItem + 1}}
+    </div>
+    <ng-container *ngIf="showNextArrows()">
+      <div
+        class="paginator__arrow"
+        (click)="changePage(page() + 1)">&gt;
+      </div>
+      <div
+        class="paginator__arrow"
+        (click)="changePage(totalPages() - 1)">&gt;&gt;
+      </div>
+    </ng-container>
+  </div>
+</app-wrapper>

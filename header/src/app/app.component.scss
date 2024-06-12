@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+  gap: .5rem;
+}
+.header {
+  display: inline-flex;
+  gap: 1rem;
+  align-items: center;
+}
+.data {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+  }
+}
