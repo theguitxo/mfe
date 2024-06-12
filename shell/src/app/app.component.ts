@@ -72,6 +72,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         tap((id: string) => {
+          console.log(id);
           this.frontsLoaded.set(id, true);
           this.showHeaderLinks.set(Array.from(this.frontsLoaded.values()).every(i => i));
         })).subscribe();

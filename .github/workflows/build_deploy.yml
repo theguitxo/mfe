@@ -7,77 +7,11 @@ on:
       - master
 
 jobs:
-  # build-shell:
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: ./shell
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-
-  #     - name: Setup Node.js
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: 20
-
-  #     - name: Install dependencies
-  #       run: npm i
-
-  #     - name: Build
-  #       run: npm run build:copy
-
-  # build-mfe1:
-  #   needs: build-shell
-
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: ./mfe1
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-
-  #     - name: Setup Node.js
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: 20
-
-  #     - name: Install dependencies
-  #       run: npm i
-
-  #     - name: Build
-  #       run: npm run build:copy
-
-  # build-header:
-  #   needs: build-mfe1
-
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: ./header
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-
-  #     - name: Setup Node.js
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: 20
-
-  #     - name: Install dependencies
-  #       run: npm i
-
-  #     - name: Build
-  #       run: npm run build:copy
-
-  build-footer:
-    # needs: build-header
-
+  build:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: footer
+        working-directory: ./shell
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -87,76 +21,72 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: SHELL - Install dependencies
+        working-directory: ./shell
         run: npm i
 
-      - name: Build
+      - name: SHELL - Build
+        working-directory: ./shell
         run: npm run build
+      
+      - name: MFE1 - Install dependencies
+        working-directory: ./mfe1
+        run: npm i
 
-  copy-files:
-    needs: build-footer
+      - name: MFE1 - Build
+        working-directory: ./mfe1
+        run: npm run build:copy
+
+      - name: HEADER - Install dependencies
+        working-directory: ./header
+        run: npm i
+
+      - name: HEADER - Build
+        working-directory: ./header
+        run: npm run build:copy
+
+      - name: FOOTER - Install dependencies
+        working-directory: ./footer
+        run: npm i
+
+      - name: FOOTER - Build
+        working-directory: ./footer
+        run: npm run build
+      
+      - name: Copy compiled to deploy directory
+        shell: bash
+        run: |
+          ls ~/work/mfe/mfe
+          rm -r ~/work/mfe/mfe/compiled/
+          mv ~/work/mfe/mfe/shell/dist/* ~/work/mfe/mfe/compiled/
+          mv ~/work/mfe/mfe/mfe1/dist/* ~/work/mfe/mfe/compiled/
+          mv ~/work/mfe/mfe/header/dist/* ~/work/mfe/mfe/compiled/
+          mv ~/work/mfe/mfe/footer/dist/* ~/work/mfe/mfe/compiled/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: github-pages
+          path: ./compiled
+          retention-days: 0
+
+  deploy:
+    needs: build
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     runs-on: ubuntu-latest
 
     steps:
-      - name: list
-        run: |
-            ls ~/runners
-        shell: bash
-        
-      # - name: Copy Shell
-      #   run: cp -r ~/work/mfe/mfe/shell/dist  ~/work/mfe/mfe/compiled
-      #   shell: bash
-      
-      # - name: Copy Mfe1
-      #   run: cp -r ~/work/mfe/mfe/mfe1/dist  ~/work/mfe/mfe/compiled
-      #   shell: bash
-
-      # - name: Copy Header
-      #   run: cp -r ~/work/mfe/mfe/header/dist  ~/work/mfe/mfe/compiled
-      #   shell: bash
-
-      # - name: Copy Footer
-      #   run: cp -r ~/work/mfe/mfe/footer/dist  ~/work/mfe/mfe/compiled
-      #   shell: bash
-
-      # - name: List files
-      #   run: ls ~/work/mfe/mfe/compiled
-
-  # upload-artifact:
-  #   needs: build-footer
-
-  #   runs-on: ubuntu-latest
-  #   # defaults:
-  #   #   run:
-  #   #     working-directory: ./
-    
-  #   steps:
-  #     - run: ls compiled
-  #     - name: Upload artifact
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         path: ./compiled
-  #         name: compiled
-
-  # deploy:
-  #   needs: build-footer
-
-  #   permissions:
-  #     pages: write
-  #     id-token: write
-
-  #   environment:
-  #     name: 'github-pages'
-  #     url: ${{ steps.deployment.outputs.page_url }}
-
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Deploy to Github pages
-  #       id: deployment
-  #       uses: actions/deploy-pages@v4.0.5
-  #       with:
-  #         artifact_name: compiled
+      - name: Deploy to Github pages
+        id: deployment
+        uses: actions/deploy-pages@v4.0.5
 
 

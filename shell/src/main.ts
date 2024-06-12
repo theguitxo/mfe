@@ -1,6 +1,14 @@
 import { initFederation } from '@angular-architects/native-federation';
 
-initFederation('/assets/federation.manifest.json')
+const manifestFile = (): string => {
+  if (location?.hostname === 'localhost') {
+    return './assets/local.federation.manifest.json';
+  }
+
+  return './assets/federation.manifest.json';
+}
+
+initFederation(manifestFile())
   .catch(err => console.error(err))
   .then(_ => import('./bootstrap'))
   .catch(err => console.error(err));

@@ -3,11 +3,35 @@
 	"version": 1,
 	"newProjectRoot": "projects",
 	"projects": {
-		"mfe1": {
+		"footer": {
 			"projectType": "application",
 			"schematics": {
 				"@schematics/angular:component": {
-					"style": "scss"
+					"inlineTemplate": true,
+					"inlineStyle": true,
+					"style": "scss",
+					"skipTests": true
+				},
+				"@schematics/angular:class": {
+					"skipTests": true
+				},
+				"@schematics/angular:directive": {
+					"skipTests": true
+				},
+				"@schematics/angular:guard": {
+					"skipTests": true
+				},
+				"@schematics/angular:interceptor": {
+					"skipTests": true
+				},
+				"@schematics/angular:pipe": {
+					"skipTests": true
+				},
+				"@schematics/angular:resolver": {
+					"skipTests": true
+				},
+				"@schematics/angular:service": {
+					"skipTests": true
 				}
 			},
 			"root": "",
@@ -19,10 +43,10 @@
 					"options": {},
 					"configurations": {
 						"production": {
-							"target": "mfe1:esbuild:production"
+							"target": "footer:esbuild:production"
 						},
 						"development": {
-							"target": "mfe1:esbuild:development",
+							"target": "footer:esbuild:development",
 							"dev": true
 						}
 					},
@@ -31,41 +55,22 @@
 				"serve": {
 					"builder": "@angular-architects/native-federation:build",
 					"options": {
-						"target": "mfe1:esbuild:development",
+						"target": "footer:esbuild:development",
 						"rebuildDelay": 0,
 						"dev": true,
-						"port": 4201
+						"port": 4203
 					}
 				},
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
 					"options": {
-						"buildTarget": "mfe1:build"
-					}
-				},
-				"test": {
-					"builder": "@angular-devkit/build-angular:karma",
-					"options": {
-						"polyfills": [
-							"zone.js",
-							"zone.js/testing"
-						],
-						"tsConfig": "tsconfig.spec.json",
-						"inlineStyleLanguage": "scss",
-						"assets": [
-							"src/favicon.ico",
-							"src/assets"
-						],
-						"styles": [
-							"src/styles.scss"
-						],
-						"scripts": []
+						"buildTarget": "footer:build"
 					}
 				},
 				"esbuild": {
 					"builder": "@angular-devkit/build-angular:browser-esbuild",
 					"options": {
-						"outputPath": "dist/mfe1",
+						"outputPath": "dist/footer",
 						"index": "src/index.html",
 						"polyfills": [
 							"zone.js",
@@ -105,7 +110,7 @@
 							"optimization": false,
 							"extractLicenses": false,
 							"sourceMap": true
-            }
+						}
 					},
 					"defaultConfiguration": "production"
 				},
@@ -113,10 +118,10 @@
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"configurations": {
 						"production": {
-							"buildTarget": "mfe1:build:production"
+							"buildTarget": "footer:build:production"
 						},
 						"development": {
-							"buildTarget": "mfe1:build:development"
+							"buildTarget": "footer:build:development"
 						}
 					},
 					"defaultConfiguration": "development"

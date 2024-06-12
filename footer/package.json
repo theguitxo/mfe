@@ -1,0 +1,38 @@
+{
+  "name": "footer",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve --open false",
+    "build": "ng build",
+    "delete-files": "del-cli ../compiled/footer --force",
+    "copy-files": "copyfiles ./dist/footer/**/*.* ../compiled/footer -f",
+    "build:copy": "npm run build && npm run delete-files && npm run copy-files",
+    "watch": "ng build --watch --configuration development"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular-architects/native-federation": "^17.0.7",
+    "@angular/animations": "^17.0.0",
+    "@angular/common": "^17.0.0",
+    "@angular/compiler": "^17.0.0",
+    "@angular/core": "^17.0.0",
+    "@angular/elements": "^17.0.8",
+    "@angular/forms": "^17.0.0",
+    "@angular/platform-browser": "^17.0.0",
+    "@angular/platform-browser-dynamic": "^17.0.0",
+    "@angular/router": "^17.0.0",
+    "es-module-shims": "^1.5.12",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.2"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^17.0.7",
+    "@angular/cli": "^17.0.7",
+    "@angular/compiler-cli": "^17.0.0",
+    "copyfiles": "^2.4.1",
+    "del-cli": "^5.1.0",
+    "typescript": "~5.2.2"
+  }
+}

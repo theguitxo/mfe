@@ -107,7 +107,7 @@
 /footer/coverage
 /footer/libpeerconnection.log
 /footer/testem.log
-/footer/
+/footer/typings
 
 /header/.angular/cache
 /header/.sass-cache/

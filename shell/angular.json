@@ -16,7 +16,6 @@
 			"architect": {
 				"build": {
 					"builder": "@angular-architects/native-federation:build",
-					"options": {},
 					"configurations": {
 						"production": {
 							"target": "shell:esbuild:production"
@@ -97,7 +96,8 @@
 									"maximumError": "4kb"
 								}
 							],
-							"outputHashing": "all"
+							"outputHashing": "all",
+              "sourceMap": true
 						},
 						"development": {
 							"optimization": false,
