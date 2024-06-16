@@ -10,5 +10,7 @@ export function connectRouter(router = inject(Router), useHash = false): void {
 
 export function getUrlAndNavigate(router: Router, useHash: boolean): void {
   const url = useHash ?  `${location.hash.substring(1)}${location.search}` :  `${location.pathname.substring(1)}${location.search}`;
-  router.navigateByUrl(url);
+  router.navigateByUrl(url, {
+    onSameUrlNavigation: "reload"
+  });
 }
