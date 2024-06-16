@@ -97,7 +97,8 @@
 								}
 							],
 							"outputHashing": "all",
-              "sourceMap": true
+              "sourceMap": true,
+              "baseHref": "https://theguitxo.github.io/mfe/"
 						},
 						"development": {
 							"optimization": false,
