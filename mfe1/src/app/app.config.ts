@@ -22,7 +22,7 @@ export const appConfig: ApplicationConfig = {
     }),
     {
       provide: PATH,
-      useFactory: () => isDevMode() ? 'http://localhost:4201/' : ''
+      useFactory: () => isDevMode() ? 'http://localhost:4201/' : 'https://theguitxo.github.io/mfe/mfe1/'
     },
     {
       provide: LOCALE_ID,
